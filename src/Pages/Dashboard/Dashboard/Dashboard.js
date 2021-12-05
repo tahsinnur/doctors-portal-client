@@ -17,24 +17,18 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
 import {
-    Switch,
-    Route,
-    Link,
-    useRouteMatch
+    Outlet,
+    Link
 } from "react-router-dom";
-import DashboardHome from '../DashboardHome/DashboardHome';
-import MakeAdmin from '../MakeAdmin/MakeAdmin';
-import AddDoctor from '../AddDoctor/AddDoctor';
+
 import useAuth from '../../../hooks/useAuth';
-import AdminRoute from '../../Login/AdminRoute/AdminRoute';
+
 
 const drawerWidth = 200;
 
 function Dashboard(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
-
-    let { path, url } = useRouteMatch();
 
     const { admin } = useAuth();
 
@@ -49,15 +43,15 @@ function Dashboard(props) {
             <Link style={{ textDecoration: "none", color: "white" }} to="/appointment">
                 <Button sx={{ m: 1 }} variant="contained">Appointment</Button>
             </Link>
-            <Link style={{ textDecoration: "none", color: "white" }} to={`${url}`}>
+            <Link style={{ textDecoration: "none", color: "white" }} to="/dashboard">
                 <Button sx={{ m: 1 }} variant="contained">Dashboard</Button>
             </Link>
             {
                 admin && <Box>
-                    <Link style={{ textDecoration: "none", color: "white" }} to={`${url}/makeAdmin`}>
+                    <Link style={{ textDecoration: "none", color: "white" }} to={`/dashboard/makeAdmin`}>
                         <Button sx={{ m: 1 }} variant="contained">Make Admin</Button>
                     </Link>
-                    <Link style={{ textDecoration: "none", color: "white" }} to={`${url}/addDoctor`}>
+                    <Link style={{ textDecoration: "none", color: "white" }} to={`/dashboard/addDoctor`}>
                         <Button sx={{ m: 1 }} variant="contained">Add Doctor</Button>
                     </Link>
                 </Box>
@@ -140,17 +134,7 @@ function Dashboard(props) {
             >
                 <Toolbar />
 
-                <Switch>
-                    <Route exact path={path}>
-                        <DashboardHome></DashboardHome>
-                    </Route>
-                    <AdminRoute path={`${path}/makeAdmin`}>
-                        <MakeAdmin></MakeAdmin>
-                    </AdminRoute>
-                    <AdminRoute path={`${path}/addDoctor`}>
-                        <AddDoctor></AddDoctor>
-                    </AdminRoute>
-                </Switch>
+                   <Outlet></Outlet> 
 
             </Box>
         </Box >
